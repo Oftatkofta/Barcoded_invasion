@@ -28,3 +28,29 @@ Dependencies: Python (3.5+), Biopython (1.69+), regex (2018.01.10+)
 ## barcoded_invasion_simulation.py
 
 Simulates #barcoded infection _in silico_
+
+The simulation is about investigating the stochastic loss of strains in the barcoded invasion assay.
+
+The initial goal is to characterize the influence of invasion probability on
+the average number of recovered barcodes.
+
+The model makes the following assumptions:
+
+-  n<sub>cells</sub> = 125.000-175.000 (averages to 150.000)
+-  n<sub>bacteria</sub> = MOI*n<sub>cells</sub>
+-  P<sub>bind</sub>, the probability that a bacterium binds a cell, is set to 1.0 (all bacteria bind a cell).
+-  Each bacterium binds one random cell from the cell population.
+-  Each cell can have multiple bacteria binding to it.
+-  Every bacterium has the probability P<sub>inv</sub> to invade the cell it has bound.
+-  If one cell is invaded, all noninvading bacteria bound to the cell have P<sub>coinvade</sub> probability to also invade.
+-  P<sub>coinvade</sub> is set to 0, no coinvasion occurs.
+-  Bacteria do not multiply during the simulation.
+-  All invading bacteria are counted with a probability of P<sub>recovered</sub>.
+-  P<sub>recovered</sub> is set to 1, all tags are counted.
+-  The composition of the innoculum varies on each "infection".
+
+The model is based on two objects, a Cell, and a Bacterium. 
+
+The Cell object has two properties; (bool) invaded, (list) bound_bacteria.
+
+The bacterium object has three properties; (float) p_bind=1.0, (float) p_inv, (str) barcode = {A, B ,C, D, E, F, G, ...}.
