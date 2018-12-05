@@ -84,7 +84,7 @@ def write_csv(fname, counts_dict):
     """
     
     filenames = list(counts_dict.keys()) 
-    fieldnames = list(counts_dict[filenames[0]].keys()).sorted()
+    fieldnames = list(counts_dict[filenames[0]].keys())
     fieldnames.insert(0, "file")
     with open(fname, 'w') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -100,6 +100,7 @@ def count_reads(file_list, data_dir, exact_regex, fuzzy_regex):
     
     Returns: (dict) {[filename]:{results}}
             the "results"-dict has the following keys:
+                [WITSxx] = count for this tag 
                 ["not_grouped"] = total-calls
                 ["total_reads"] = total
                 ["grouped_reads"] = calls
@@ -164,7 +165,7 @@ def count_reads(file_list, data_dir, exact_regex, fuzzy_regex):
                     
             counts[file]["not_grouped"] = total-calls
             counts[file]["total_reads"] = total
-            counts[file]["grouped_reads"] = calls
+            counts[file]["max_" + str(n_errors) + "_mismatches"] = calls
             counts[file]["exact_matches"] = exact_match
             counts[file]["sample"] = sample
             counts[file]["time_to_process_file"] = time.time()-t1
