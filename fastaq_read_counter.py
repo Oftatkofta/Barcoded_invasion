@@ -83,19 +83,33 @@ def write_csv(fname, counts_dict):
     counts_dict: dict of dicts returned from count_reads()
     """
     
-    filenames = list(counts.keys())
+    filenames = list(counts_dict.keys())
     fieldnames = list(wits_rc_motifs.keys()) +  ["not_grouped"] + ["total_reads"] + ["grouped_reads"] + ["exact_matches"] + ["sample"] + ["time_to_process"]
     fieldnames.insert(0, "file")
     with open(fname, 'w') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for file in filenames:
-            writer.writerow({**{'file':file}, **counts[file]}) #merge dictionaries
+            #merge dictionaries
+            writer.writerow({**{'file':file}, **counts_dict[file]}) 
     
-
-
+  
 def count_reads(file_list, data_dir, exact_regex, fuzzy_regex):
+    """
+    Counts all the files in file_list in data_dir using exact and fuzzy regex.
+    
+    Returns: (dict) {[filename]:{results}}
+            the "results"-dict has the following keys:
+                ["not_grouped"] = total-calls
+                ["total_reads"] = total
+                ["grouped_reads"] = calls
+                ["exact_matches"] = exact_match
+                ["sample"] = sample
+                ["time_to_process_file"] 
+    
+    """
 
+    
     #counts[file]={}, a dict of dicts to store counts for each file
     counts = {} 
     t0 = time.time()
@@ -182,9 +196,7 @@ def run():
     results = count_reads(raw_data_files, raw_data_dir, wits_rc_motifs, fuzzy_wits)
     
     write_csv(csv_name, results)
-
-    
-    
+   
 if __name__ == "__main__":
     run()
 
