@@ -47,7 +47,7 @@ The model makes the following assumptions:
 -  Bacteria do not multiply during the simulation.
 -  All invading bacteria are counted with a probability of P<sub>recovered</sub>.
 -  P<sub>recovered</sub> is set to 1, all tags are counted.
--  The composition of the innoculum varies on each "infection".
+-  The composition of the innoculum varies on each "infection" with an experimentally derived standard deviation.
 
 The model is based on two objects, a Cell, and a Bacterium. 
 
