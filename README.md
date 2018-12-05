@@ -49,8 +49,4 @@ The model makes the following assumptions:
 -  P<sub>recovered</sub> is set to 1, all tags are counted.
 -  The composition of the innoculum varies on each "infection" with an experimentally derived standard deviation.
 
-The model is based on two objects, a Cell, and a Bacterium. 
-
-The Cell object has two properties; (bool) invaded, (list) bound_bacteria.
-
-The bacterium object has three properties; (float) p_bind=1.0, (float) p_inv, (str) barcode = {A, B ,C, D, E, F, G, ...}.
+The model is based on two objects, a Cell, and a Bacterium and is an _in silico_ rewrite of an experimental protocol. It is therefore computationally quite wasteful. 
