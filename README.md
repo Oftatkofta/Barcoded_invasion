@@ -1,6 +1,6 @@
 # Barcoded_invasion
 
-Code developed for the DiMartion barcoded invasion project.
+Code developed for the DiMartino barcoded invasion project.
 
 ## fastaq_read_counter.py
 
