@@ -84,7 +84,7 @@ def write_csv(fname, counts_dict):
     """
     
     filenames = list(counts_dict.keys()) 
-    fieldnames = list(counts_dict[filenames[0].keys())
+    fieldnames = list(counts_dict[filenames[0]].keys())
     fieldnames.insert(0, "file")
     with open(fname, 'w') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
