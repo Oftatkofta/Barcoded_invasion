@@ -83,8 +83,8 @@ def write_csv(fname, counts_dict):
     counts_dict: dict of dicts returned from count_reads()
     """
     
-    filenames = list(counts_dict.keys())
-    fieldnames = list(wits_rc_motifs.keys()) +  ["not_grouped"] + ["total_reads"] + ["grouped_reads"] + ["exact_matches"] + ["sample"] + ["time_to_process"]
+    filenames = list(counts_dict.keys()) 
+    fieldnames = list(counts_dict[filenames[0].keys())
     fieldnames.insert(0, "file")
     with open(fname, 'w') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
