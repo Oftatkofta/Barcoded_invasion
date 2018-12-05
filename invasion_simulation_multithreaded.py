@@ -1,13 +1,12 @@
 import random
-import math
-import matplotlib.pyplot as plt
 from collections import Counter
 import numpy
 import time
-import multiprocessing.dummy
-from multiprocessing import Queue
+from multiprocessing.dummy import Pool
+#from multiprocessing import Pool 
 import sys
-import itertools
+
+
 
 class Cell(object):
     """
@@ -318,6 +317,14 @@ def createInnoculumDict(simpleInnoculumDict, sd_tag_composition):
 
 
 def worker_process(moi):
+    """
+    Runs one 'experiment' for multi threading.
+    
+    In this case we are only interested in the number of different tags
+    recovered, not their identities.
+    
+    """
+    #print("Start MOI: {0}, p_inv: {1}, p_bind: {2}, p_coinv: {3}".format(moi, p_invade, p_bind, p_coinvade))
     
     simpleInnoculum = {'A':(p_invade, p_bind, p_coinvade), 
                       'B':(p_invade, p_bind, p_coinvade),
@@ -329,68 +336,78 @@ def worker_process(moi):
                       }
       
     innoculum = createInnoculumDict(simpleInnoculum, std_tag_composition)
-    nr_cells = random.randint(125000, 175000)
+    nr_cells = random.randint(125000, 175000) #experimentally verified numbers
     e = Experiment(n_cells=nr_cells, MOI=moi, innoculum_dict=innoculum, fraction_recovered=1, doCoinvasion=False)
     recovered_tags = e.getNumberOfRecoveredTags()
-    return recovered_tags 
-
     
-random.seed(666)        
-
-
-
-std_tag_composition = 0.043
-p_coinvade = 0
-p_bind = 1.0
-p_invade_invG = 1.018E-4
-p_invade_wt = 1.146E-2
-
-probs = [p_invade_wt, p_invade_invG]
-MOIs = (200, 20, 2, 0.2, 0.02, 0.002)
-nr_runs = (1000, 1000, 1000, 1000, 1000, 1000)
-
-MOIs = (200, 20, 2, 0.2, 0.02, 0.002)
-nr_runs = (100, 100, 1000, 1000, 1000, 1000)
-
-
+    return recovered_tags 
 
 
 if __name__== '__main__':
+    """
+    Runs simulation 1000 times per MOI and saves average number of tags
+    recovered per MOI.
+    """
+    resultsfile = sys.argv[1]
+    nr_threads = int(sys.argv[2])
     
+    random.seed(666)        
     t0 = time.time()
-    f = open("invasion_simulation_results.csv", "w")
-    header = "MOI,nr_tags_recovered,std_nr_tags,p_invade,nr_runs,time_to_process\n"
+    
+    std_tag_composition = 0.043 #experimentally verified number
+    p_coinvade = 0.0
+    p_bind = 1.0
+    p_invade_invG = 1.018E-4 #experimentally verified number
+    p_invade_wt = 1.146E-2 #experimentally verified number
+    
+    #MOIS to simulate
+    MOIs = (200, 20, 2, 0.2, 0.02, 0.002, 0.0002)
+
+    #Nr of simulations to run for each MOI
+    nr_runs = (1000, 1000, 1000, 1000, 1000, 1000, 1000)
+        
+    probs = [p_invade_wt, p_invade_invG]
+    
+    f = open(resultsfile, "w")
+    header = "MOI, nr_tags_recovered, std_nr_tags, p_invade, nr_runs, time_to_process\n"
+    
     f.write(header)
+   
+  
     for prob in probs:
         p_invade = prob
-        with multiprocessing.dummy.Pool(6) as p:
+        print("P_invade: {0:.2e}".format(prob))
+        print(worker_process(2))
+        
+        #Parallelizes the simulation with nr_threads threads.
+        with Pool(nr_threads) as p:
+            
             for i in range(len(MOIs)):
+     
                 print("Starting MOI:{}".format(MOIs[i]))
                 t1 = time.time()
+                
+                #expands arglist nr_runs times
                 arglist = [MOIs[i]]*nr_runs[i]
+                
+                #feeds each MOI to worker_process()
                 results = p.map(worker_process, arglist)
+                
+                #calculates mean nr. of tags returned
                 means = numpy.mean(results)
+                
+                #calculates mean nr. of tags returned
                 stds = numpy.std(results)
                 print("Parallel threads took {0:.1f} for MOI:{1} at pInv: {5} and {2} runs mean: {3} sd: {4}".format(time.time()-t1, MOIs[i], nr_runs[i], means, stds, p_invade))
+                
                 f.write(str(MOIs[i]) + "," +
                         str(means) +"," +
                         str(stds) + "," +
                         str(p_invade) + "," + 
                         str(nr_runs[i]) + "," +
                         str(time.time()-t1) + "\n")
-        
+
     print("Parallel threads took de toto {0:.1f}".format(time.time()-t0))
     f.close()
-
-
-    
-#results = []
-#while not q.empty():
-#    results.append(q.get())
-
-#print(results)
-
-
-#print(results)
 
 
