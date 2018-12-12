@@ -324,7 +324,6 @@ def worker_process(moi):
     recovered, not their identities.
     
     """
-    #print("Start MOI: {0}, p_inv: {1}, p_bind: {2}, p_coinv: {3}".format(moi, p_invade, p_bind, p_coinvade))
     
     simpleInnoculum = {'A':(p_invade, p_bind, p_coinvade), 
                       'B':(p_invade, p_bind, p_coinvade),
@@ -337,6 +336,7 @@ def worker_process(moi):
       
     innoculum = createInnoculumDict(simpleInnoculum, std_tag_composition)
     nr_cells = random.randint(125000, 175000) #experimentally verified numbers
+    print("Worker start MOI: {0}, p_inv: {1}, p_bind: {2}, nr_cells: {3}".format(moi, p_invade, p_bind, nr_cells))
     e = Experiment(n_cells=nr_cells, MOI=moi, innoculum_dict=innoculum, fraction_recovered=1, doCoinvasion=False)
     recovered_tags = e.getNumberOfRecoveredTags()
     
