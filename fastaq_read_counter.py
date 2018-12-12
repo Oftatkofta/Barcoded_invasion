@@ -94,7 +94,7 @@ def write_csv(fname, counts_dict):
             writer.writerow({**{'file':file}, **counts_dict[file]}) 
     
   
-def count_reads(file_list, data_dir, exact_regex, fuzzy_regex):
+def count_reads(file_list, data_dir, exact_regex, fuzzy_regex, n_errors):
     """
     Counts all the files in file_list in data_dir using exact and fuzzy regex.
     
@@ -197,7 +197,7 @@ def run():
     #Dict that stores fuzzy regex 
     fuzzy_wits = compile_fuzzy_regex_dict(wits_tags, n_errors)
     
-    results = count_reads(raw_data_files, raw_data_dir, wits_rc_motifs, fuzzy_wits)
+    results = count_reads(raw_data_files, raw_data_dir, wits_rc_motifs, fuzzy_wits, n_errors)
     
     write_csv(csv_name, results)
    
