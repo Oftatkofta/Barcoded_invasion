@@ -2,7 +2,7 @@
 
 Code developed for the DiMartino barcoded invasion project.
 
-[## fastaq_read_counter_multithreaded.py](https://github.com/Oftatkofta/Barcoded_invasion/blob/master/invasion_simulation_multithreaded.py)
+## fastaq_read_counter.py
 
 Counts the occurrences of WITS tags in fastaq files.
 
@@ -25,7 +25,7 @@ arg4: MAX_NO_ERRORS
 
 Dependencies: Python (3.5+), Biopython (1.69+), regex (2018.01.10+)
 
-[## barcoded_invasion_simulation.py](https://github.com/Oftatkofta/Barcoded_invasion/blob/master/fastaq_read_counter.py)
+## barcoded_invasion_simulation.py
 
 Simulates #barcoded infection _in silico_
 
