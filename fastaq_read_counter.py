@@ -131,6 +131,11 @@ def count_reads(file_list, data_dir, exact_regex, fuzzy_regex, n_errors):
             exact_match = 0 #no exact matches
             counts[file]={} #dict to store total, calls & other calculated values
             
+            for wit in exact_regex.keys(): #Make sure that all WITS are present in outfile
+                counts[file][wit] = 0
+                
+            
+            
             #iterate through each entry in the loaded .fastq-file
             for title, seq, qual in FastqGeneralIterator(in_handle):
                 #store the string representation of the sequence entry
@@ -141,8 +146,6 @@ def count_reads(file_list, data_dir, exact_regex, fuzzy_regex, n_errors):
                 if (total%5000 == 0):
                     print("Progress...total reads: %i, matches: %i, fails: %i, exact_match: %i" % (total, calls, (total-calls), exact_match))
                 
-                if ((total%5000 == 0) and not (total == 0)): #TODO: remove before publish
-                    break
                 
                 for wit in exact_regex.keys():
                 
