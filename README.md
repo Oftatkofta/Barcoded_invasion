@@ -25,7 +25,7 @@ arg4: MAX_NO_ERRORS
 
 Dependencies: Python (3.5+), Biopython (1.69+), regex (2018.01.10+)
 
-## barcoded_invasion_simulation.py
+## barcoded_invasion_simulation_multithreaded.py
 
 Simulates #barcoded infection _in silico_
 
