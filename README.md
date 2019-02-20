@@ -38,15 +38,18 @@ The model makes the following assumptions:
 
 -  n<sub>cells</sub> = 125.000-175.000 (averages to 150.000)
 -  n<sub>bacteria</sub> = MOI*n<sub>cells</sub>
--  P<sub>bind</sub>, the probability that a bacterium binds a cell, is set to 1.0 (all bacteria bind a cell).
+-  P<sub>bind</sub>, the probability that a bacterium binds a cell, is set to 1.0 (all bacteria bind a cell, see comment below).
 -  Each bacterium binds one random cell from the cell population.
 -  Each cell can have multiple bacteria binding to it.
--  Every bacterium has the probability P<sub>inv</sub> to invade the cell it has bound.
+-  Every bacterium has the probability P<sub>invade</sub> to invade the cell it has bound.
 -  If one cell is invaded, all noninvading bacteria bound to the cell have P<sub>coinvade</sub> probability to also invade.
--  P<sub>coinvade</sub> is set to 0, no coinvasion occurs.
+-  P<sub>coinvade</sub> is set to 0, no coinvasion occurs in the simulation.
 -  Bacteria do not multiply during the simulation.
 -  All invading bacteria are counted with a probability of P<sub>recovered</sub>.
 -  P<sub>recovered</sub> is set to 1, all tags are counted.
 -  The composition of the innoculum varies on each "infection" with an experimentally derived standard deviation.
 
-The model is based on two objects, a Cell, and a Bacterium and is an _in silico_ rewrite of an experimental protocol. It is therefore computationally quite wasteful. 
+The different P<sub>invade</sub> values were determined experimentally. Strictly, this number represents the product of P<sub>bind</sub> and P<sub>invade</sub>.
+
+The model is based on two objects, a Cell, and a Bacterium and is an _in silico_ rewrite of an experimental protocol. It is therefore computationally quite wasteful.
+
